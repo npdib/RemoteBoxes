@@ -3,10 +3,9 @@
 #include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
 #include <SPI.h>
 
-#define TFT_CS         39
-#define TFT_RST        4
-#define TFT_DC         40
-
+#define TFT_CS         37
+#define TFT_RST        1
+#define TFT_DC         34
 
 
 // OPTION 1 (recommended) is to use the HARDWARE SPI pins, which are unique
@@ -14,14 +13,14 @@
 // SCLK = pin 13. This is the fastest mode of operation and is required if
 // using the breakout board's microSD card.
 
-Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
+// Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_RST);
 
 // OPTION 2 lets you interface the display using ANY TWO or THREE PINS,
 // tradeoff being that performance is not as fast as hardware SPI above.
-//#define TFT_MOSI 11  // Data out
-//#define TFT_SCLK 13  // Clock out
+#define TFT_MOSI MOSI  // Data out
+#define TFT_SCLK SCK  // Clock out
 
-//Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
+Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
 
 float p = 3.1415926;
