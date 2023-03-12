@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "displayDriver.h"
 #include "wifiDriver.h"
+#include "restDriver.h"
 
 void setup()
 {
@@ -13,10 +14,18 @@ void setup()
     
     displayDriver displayDriver;
     wifiDriver wifiDriver;
+    restDriver restDriver(wifiDriver, displayDriver);
 
-    displayDriver.LOG("About to connect to WiFi");
-    wifiDriver.wifiConnect();
-    displayDriver.LOG("Connected!!");
+    std::string database = restDriver.GETRequest();
+
+    const char* data = "{\"Box2\": 1}";
+    size_t size = strlen(data);
+    Serial.printf("sending %s, with length %d\n", data, size);
+
+    restDriver.PUTRequest((uint8_t*) data, size);
+
+    database = restDriver.GETRequest();
+    // displayDriver.LOG(database);
 }
 
 void loop()
