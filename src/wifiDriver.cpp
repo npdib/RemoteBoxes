@@ -12,13 +12,13 @@ wifiDriver::wifiDriver(void)
     mSSID = mCredentials.substr(0, semiColon);
     mPwd = mCredentials.substr(semiColon+1); 
 
-    Serial.printf("SSID: %c\nPassword: %c\n", SSID, pwd);
+    Serial.printf("SSID: %s\nPassword: %s\n", mSSID.c_str(), mPwd.c_str());
 }
 
 void wifiDriver::wifiConnect(void)
 {
-    Serial.printf("SSID: %c\nPassword: %c\n", SSID, pwd);
-    WiFi.begin(SSID.c_str(), pwd.c_str());
+    Serial.printf("SSID: %s\nPassword: %s\n", mSSID.c_str(), mPwd.c_str());
+    WiFi.begin(mSSID.c_str(), mPwd.c_str());
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -26,5 +26,5 @@ void wifiDriver::wifiConnect(void)
         delay(1000);
     }
 
-    Serial.print("Connected successfully");
+    Serial.print("Connected successfully\n");
 }
