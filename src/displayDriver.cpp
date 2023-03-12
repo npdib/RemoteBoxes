@@ -1,15 +1,37 @@
-#include <displayDriver.h>
+#include "displayDriver.h"
 
-displayDriver::displayDriver(void)
-{
-	this->initialiseScreen();
-}
+// PROTECTED
 
 void displayDriver::initialiseScreen(void)
 {
 	tft.init(170, 320); // Init ST7789 170x320
-	this->clearScreen();
-}	
+	clearScreen();
+}
+
+void displayDriver::initialiseLog(void)
+{
+	tft.setTextWrap(true);
+	tft.setCursor(5, 5);
+	tft.setTextColor(ST77XX_WHITE);
+	tft.setTextSize(3);
+}
+
+// PUBLIC
+
+displayDriver::displayDriver(void)
+{
+	initialiseScreen();
+}
+
+void displayDriver::LOG(char* text)
+{
+	tft.println(text);
+}
+
+void displayDriver::LOG(std::string text)
+{
+	tft.println(text.c_str());
+}
 
 // void testlines(uint16_t color)
 // {

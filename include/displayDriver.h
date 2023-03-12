@@ -18,11 +18,14 @@ class displayDriver // class to hold the display driver
 		Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
 		void initialiseScreen(void);
+        void initialiseLog(void);
 
 	public:		
 
 		displayDriver(void); // constructor
 		void clearScreen(void){tft.fillScreen(ST77XX_BLACK);} // clear screen function
+        void LOG(char*);
+        void LOG(std::string);
 
 };
 
