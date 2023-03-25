@@ -74,19 +74,23 @@ bool restDriver::PUTRequest(String payload)
     }
 }
 
-int restDriver::findValueFromPayload(std::string retrievedPayload, int box)
+int restDriver::findValueFromPayload(std::string retrievedPayload, int box, int &value)
 {
     char boxChar = box + '0';
     char temp[5] = "Box";
     temp[3] = boxChar;
     temp[4] = '\0';
     int pos = retrievedPayload.find(temp);
-
-    Serial.println(retrievedPayload[pos+6]);
-    if (retrievedPayload[pos+6] < 46)
-        Serial.println(retrievedPayload.c_str());
-
-    return retrievedPayload[pos+6] - '0';
+    value = retrievedPayload[pos+6] - '0';
+    if (value >= 0)
+    {
+        return true;
+    }
+    else
+    {
+        Serial.println("Retrying PUT...");
+        return false;
+    }
 }
 
 String restDriver::createPutPayload(int box, int value)
@@ -111,6 +115,10 @@ bool restDriver::updateBoxValue(int box, int value)
 int restDriver::retrieveBoxValue(int box)
 {
     String databaseData;
-    GETRequest(databaseData);
-    return findValueFromPayload(databaseData.c_str(), box);
+    int value = 0;
+    do
+    {
+        GETRequest(databaseData);
+    } while (!findValueFromPayload(databaseData.c_str(), box, value));
+    return value;
 }

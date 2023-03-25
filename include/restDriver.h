@@ -23,7 +23,7 @@ class restDriver
 
         bool GETRequest(String &);
         bool PUTRequest(String);
-        int findValueFromPayload(std::string, int);
+        int findValueFromPayload(std::string, int, int &);
         String createPutPayload(int, int);  
 
     public:
