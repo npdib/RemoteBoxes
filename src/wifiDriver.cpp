@@ -18,7 +18,11 @@ wifiDriver::wifiDriver(void)
 void wifiDriver::wifiConnect(void)
 {
     Serial.printf("SSID: %s\nPassword: %s\n", mSSID.c_str(), mPwd.c_str());
-    WiFi.begin(mSSID.c_str(), mPwd.c_str());
+
+    if (WiFi.status() != WL_CONNECTED)
+    {
+        WiFi.begin(mSSID.c_str(), mPwd.c_str());
+    }
 
     while (WiFi.status() != WL_CONNECTED)
     {
