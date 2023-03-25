@@ -25,16 +25,21 @@ void setup()
 
     int box1 = restDriver.retrieveBoxValue(KATIEBOX);
     int box2 = restDriver.retrieveBoxValue(NICKBOX);
-    displayDriver.LOG(box1);
-    displayDriver.LOG(box2);
+    char logMessage[64];
+    snprintf(logMessage, 64, "Old value for Box 1 is %d", box1);
+    displayDriver.LOG(logMessage);
+    snprintf(logMessage, 64, "Old value for Box 2 is %d", box2);
+    displayDriver.LOG(logMessage);
 
     restDriver.updateBoxValue(KATIEBOX, 1);
     restDriver.updateBoxValue(NICKBOX, 1);
 
     box1 = restDriver.retrieveBoxValue(KATIEBOX);
     box2 = restDriver.retrieveBoxValue(NICKBOX);
-    displayDriver.LOG(box1);
-    displayDriver.LOG(box2);
+    snprintf(logMessage, 64, "New value for Box 1 is %d", box1);
+    displayDriver.LOG(logMessage);
+    snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
+    displayDriver.LOG(logMessage);
 }
 
 void loop()
