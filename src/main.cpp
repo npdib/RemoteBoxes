@@ -3,8 +3,8 @@
 #include "wifiDriver.h"
 #include "restDriver.h"
 
-constexpr int KATIEBOX = 1;
-constexpr int NICKBOX = 2;
+constexpr int BOX1 = 1;
+constexpr int BOX2 = 2;
 
 void setup()
 {
@@ -20,22 +20,22 @@ void setup()
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
 
-    restDriver.updateBoxValue(KATIEBOX, 0);
-    restDriver.updateBoxValue(NICKBOX, 0);
+    restDriver.updateBoxValue(BOX1, 0);
+    restDriver.updateBoxValue(BOX2, 0);
 
-    int box1 = restDriver.retrieveBoxValue(KATIEBOX);
-    int box2 = restDriver.retrieveBoxValue(NICKBOX);
+    int box1 = restDriver.retrieveBoxValue(BOX1);
+    int box2 = restDriver.retrieveBoxValue(BOX2);
     char logMessage[64];
     snprintf(logMessage, 64, "Old value for Box 1 is %d", box1);
     displayDriver.LOG(logMessage);
     snprintf(logMessage, 64, "Old value for Box 2 is %d", box2);
     displayDriver.LOG(logMessage);
 
-    restDriver.updateBoxValue(KATIEBOX, 1);
-    restDriver.updateBoxValue(NICKBOX, 1);
+    restDriver.updateBoxValue(BOX1, 1);
+    restDriver.updateBoxValue(BOX2, 1);
 
-    box1 = restDriver.retrieveBoxValue(KATIEBOX);
-    box2 = restDriver.retrieveBoxValue(NICKBOX);
+    box1 = restDriver.retrieveBoxValue(BOX1);
+    box2 = restDriver.retrieveBoxValue(BOX2);
     snprintf(logMessage, 64, "New value for Box 1 is %d", box1);
     displayDriver.LOG(logMessage);
     snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
