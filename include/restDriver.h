@@ -7,7 +7,7 @@ class restDriver
 {
     private:    
         String baseUrl = "https://katiebox1-05ba.restdb.io/rest/nkboxes";
-        String databaseID = "640e11dee603b60500012346";
+        String databaseID = "641f2aba111de45d00014b37";
         String apiKey = "640e0c86bc22d22cf7b25e75";
 
         wifiDriver wifi;
@@ -19,5 +19,5 @@ class restDriver
     public:
         restDriver(wifiDriver, displayDriver); // constructor
         std::string GETRequest(void);
-        bool PUTRequest(uint8_t*, size_t);
+        bool PUTRequest(String);
 };

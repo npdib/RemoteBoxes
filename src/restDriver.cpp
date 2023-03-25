@@ -27,19 +27,19 @@ std::string restDriver::GETRequest(void)
     return response;
 }
 
-bool restDriver::PUTRequest(uint8_t* payload, size_t size)
+bool restDriver::PUTRequest(String payload)
 {
     wifi.wifiConnect();
     HTTPClient http;
     WiFiClientSecure client = StartWifiClient();
     String url = baseUrl + "/" + databaseID;
     display.LOG(url.c_str());
-    Serial.print((char*) payload);
-    http.begin(client, baseUrl);
+    http.begin(client, url);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("x-apikey", apiKey);
+    http.addHeader("cache-control", "no-cache");
 
-    int httpResponseCode = http.PUT(payload, size);
+    int httpResponseCode = http.PUT(payload);
     std::string response = http.getString().c_str();
     Serial.printf("response code %d; response %s", httpResponseCode, response.c_str());
 

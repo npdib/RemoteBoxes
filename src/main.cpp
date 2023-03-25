@@ -18,11 +18,10 @@ void setup()
 
     std::string database = restDriver.GETRequest();
 
-    const char* data = "{\"Box2\": 1}";
-    size_t size = strlen(data);
-    Serial.printf("sending %s, with length %d\n", data, size);
+    String data = "{\"Box1\":1}";
+    Serial.printf("sending %s, with length %d\n", data, sizeof(data));
 
-    restDriver.PUTRequest((uint8_t*) data, size);
+    restDriver.PUTRequest(data);
 
     database = restDriver.GETRequest();
     // displayDriver.LOG(database);
