@@ -8,43 +8,32 @@ WiFiClientSecure restDriver::StartWifiClient(void)
     return client;
 }
 
-std::string restDriver::GETRequest(void)
+void restDriver::timerOk(void)
 {
-    wifi.wifiConnect();
+    while ((millis() - timer) < restLimit);
+}
+
+void restDriver::setTimer(void)
+{
+    timer = millis();
+}
+
+bool restDriver::GETRequest(String &data)
+{
+    wifi->wifiConnect();
     HTTPClient http;
     WiFiClientSecure client = StartWifiClient();
     http.begin(client, baseUrl);
     http.addHeader("Content-Type", "application/json");
     http.addHeader("x-apikey", apiKey);
 
+    timerOk();
     int httpResponseCode = http.GET();
-    std::string response = http.getString().c_str();
+    setTimer();
+    data = http.getString();
 
     http.end();    
-    wifi.wifiDisconnect();
-    display.LOG(response);
-
-    return response;
-}
-
-bool restDriver::PUTRequest(String payload)
-{
-    wifi.wifiConnect();
-    HTTPClient http;
-    WiFiClientSecure client = StartWifiClient();
-    String url = baseUrl + "/" + databaseID;
-    display.LOG(url.c_str());
-    http.begin(client, url);
-    http.addHeader("Content-Type", "application/json");
-    http.addHeader("x-apikey", apiKey);
-    http.addHeader("cache-control", "no-cache");
-
-    int httpResponseCode = http.PUT(payload);
-    std::string response = http.getString().c_str();
-    Serial.printf("response code %d; response %s", httpResponseCode, response.c_str());
-
-    http.end();    
-    wifi.wifiDisconnect();
+    wifi->wifiDisconnect();
 
     if (httpResponseCode == 200)
     {
@@ -56,8 +45,72 @@ bool restDriver::PUTRequest(String payload)
     }
 }
 
-restDriver::restDriver(wifiDriver wifidriver, displayDriver displaydriver)
+bool restDriver::PUTRequest(String payload)
 {
-    wifi = wifidriver;
-    display = displaydriver;
+    wifi->wifiConnect();
+    HTTPClient http;
+    WiFiClientSecure client = StartWifiClient();
+    String url = baseUrl + "/" + databaseID;
+    http.begin(client, url);
+    http.addHeader("Content-Type", "application/json");
+    http.addHeader("x-apikey", apiKey);
+    http.addHeader("cache-control", "no-cache");
+
+    timerOk();
+    int httpResponseCode = http.PUT(payload);
+    setTimer();
+    String response = http.getString();
+
+    http.end();    
+    wifi->wifiDisconnect();
+
+    if (httpResponseCode == 200)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int restDriver::findValueFromPayload(std::string retrievedPayload, int box)
+{
+    char boxChar = box + '0';
+    char temp[5] = "Box";
+    temp[3] = boxChar;
+    temp[4] = '\0';
+    int pos = retrievedPayload.find(temp);
+
+    Serial.println(retrievedPayload[pos+6]);
+    if (retrievedPayload[pos+6] < 46)
+        Serial.println(retrievedPayload.c_str());
+
+    return retrievedPayload[pos+6] - '0';
+}
+
+String restDriver::createPutPayload(int box, int value)
+{
+    String boxStr = (String) box;
+    String valueStr = (String) value;
+    String data = "{\"Box" + boxStr + "\":" + valueStr + "}";
+    return data;
+}
+
+restDriver::restDriver(wifiDriver &wifidriver)
+{
+    wifi = &wifidriver;
+}
+
+bool restDriver::updateBoxValue(int box, int value)
+{
+    String data = createPutPayload(box, value);
+    return PUTRequest(data);
+}
+
+int restDriver::retrieveBoxValue(int box)
+{
+    String databaseData;
+    GETRequest(databaseData);
+    return findValueFromPayload(databaseData.c_str(), box);
 }
