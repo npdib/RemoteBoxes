@@ -25,8 +25,8 @@ class displayDriver // class to hold the display driver
 		displayDriver(void); // constructor
 		void clearScreen(void){tft.fillScreen(ST77XX_BLACK);} // clear screen function
         void LOG(char*);
-        void LOG(std::string);
-
+        void LOG(String);
+        void LOG(int);
 };
 
 #endif //DISPLAYDRIVER

@@ -28,9 +28,14 @@ void displayDriver::LOG(char* text)
 	tft.println(text);
 }
 
-void displayDriver::LOG(std::string text)
+void displayDriver::LOG(String text)
 {
-	tft.println(text.c_str());
+	tft.println(text);
+}
+
+void displayDriver::LOG(int text)
+{
+	tft.println(text);
 }
 
 // void testlines(uint16_t color)
