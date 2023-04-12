@@ -2,6 +2,7 @@
 #include "displayDriver.h"
 #include "wifiDriver.h"
 #include "restDriver.h"
+#include "InterruptHandler.h"
 
 constexpr int BOX1 = 1;
 constexpr int BOX2 = 2;
@@ -19,6 +20,9 @@ void setup()
     displayDriver displayDriver;
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
+    setupButtonInterrupts();
+
+    displayDriver.LOG("Connected to WiFi!!");
 
     restDriver.updateBoxValue(BOX1, 0);
     restDriver.updateBoxValue(BOX2, 0);
@@ -40,9 +44,21 @@ void setup()
     displayDriver.LOG(logMessage);
     snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
     displayDriver.LOG(logMessage);
+
+    int buttonState = 0;
+
+    while (true)
+    {
+        if (button1pressed)
+        {
+            displayDriver.LOG("Pressed!!");
+            button1pressed = false;
+        }
+        delay(50);
+    }
 }
 
 void loop()
 {
-    delay(1000);
+    
 }

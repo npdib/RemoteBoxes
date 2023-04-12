@@ -8,28 +8,16 @@ WiFiClientSecure restDriver::StartWifiClient(void)
     return client;
 }
 
-void restDriver::timerOk(void)
-{
-    while ((millis() - timer) < restLimit);
-}
-
-void restDriver::setTimer(void)
-{
-    timer = millis();
-}
-
 bool restDriver::GETRequest(String &data)
 {
     wifi->wifiConnect();
     HTTPClient http;
     WiFiClientSecure client = StartWifiClient();
-    http.begin(client, baseUrl);
+    String url = baseUrl + "/" + databaseID;
+    http.begin(client, url);
     http.addHeader("Content-Type", "application/json");
-    http.addHeader("x-apikey", apiKey);
 
-    timerOk();
     int httpResponseCode = http.GET();
-    setTimer();
     data = http.getString();
 
     http.end();    
@@ -53,12 +41,8 @@ bool restDriver::PUTRequest(String payload)
     String url = baseUrl + "/" + databaseID;
     http.begin(client, url);
     http.addHeader("Content-Type", "application/json");
-    http.addHeader("x-apikey", apiKey);
-    http.addHeader("cache-control", "no-cache");
 
-    timerOk();
     int httpResponseCode = http.PUT(payload);
-    setTimer();
     String response = http.getString();
 
     http.end();    
