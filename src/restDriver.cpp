@@ -21,7 +21,6 @@ bool restDriver::GETRequest(String &data)
     data = http.getString();
 
     http.end();    
-    wifi->wifiDisconnect();
 
     if (httpResponseCode == 200)
     {
@@ -46,7 +45,6 @@ bool restDriver::PUTRequest(String payload)
     String response = http.getString();
 
     http.end();    
-    wifi->wifiDisconnect();
 
     if (httpResponseCode == 200)
     {

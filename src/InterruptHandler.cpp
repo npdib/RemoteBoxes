@@ -1,10 +1,15 @@
 #include "InterruptHandler.h"
 
-bool button1pressed = false;
+button button1;
 
 void IRAM_ATTR Button1ISR(void)
 {
-    button1pressed = true;
+    if (button1.ready)
+    {
+        button1.pressed = true;
+        button1.ready = false;
+        button1.timer = millis();
+    }
 }
 
 void setupButtonInterrupts(void)

@@ -22,39 +22,51 @@ void setup()
     restDriver restDriver(wifiDriver);
     setupButtonInterrupts();
 
-    displayDriver.LOG("Connected to WiFi!!");
+    // restDriver.updateBoxValue(BOX1, 0);
+    // restDriver.updateBoxValue(BOX2, 0);
 
-    restDriver.updateBoxValue(BOX1, 0);
-    restDriver.updateBoxValue(BOX2, 0);
+    // int box1 = restDriver.retrieveBoxValue(BOX1);
+    // int box2 = restDriver.retrieveBoxValue(BOX2);
+    // char logMessage[64];
+    // snprintf(logMessage, 64, "Old value for Box 1 is %d", box1);
+    // displayDriver.LOG(logMessage);
+    // snprintf(logMessage, 64, "Old value for Box 2 is %d", box2);
+    // displayDriver.LOG(logMessage);
 
-    int box1 = restDriver.retrieveBoxValue(BOX1);
-    int box2 = restDriver.retrieveBoxValue(BOX2);
-    char logMessage[64];
-    snprintf(logMessage, 64, "Old value for Box 1 is %d", box1);
-    displayDriver.LOG(logMessage);
-    snprintf(logMessage, 64, "Old value for Box 2 is %d", box2);
-    displayDriver.LOG(logMessage);
+    // restDriver.updateBoxValue(BOX1, 1);
+    // restDriver.updateBoxValue(BOX2, 1);
 
-    restDriver.updateBoxValue(BOX1, 1);
-    restDriver.updateBoxValue(BOX2, 1);
-
-    box1 = restDriver.retrieveBoxValue(BOX1);
-    box2 = restDriver.retrieveBoxValue(BOX2);
-    snprintf(logMessage, 64, "New value for Box 1 is %d", box1);
-    displayDriver.LOG(logMessage);
-    snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
-    displayDriver.LOG(logMessage);
-
-    int buttonState = 0;
+    // box1 = restDriver.retrieveBoxValue(BOX1);
+    // box2 = restDriver.retrieveBoxValue(BOX2);
+    // snprintf(logMessage, 64, "New value for Box 1 is %d", box1);
+    // displayDriver.LOG(logMessage);
+    // snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
+    // displayDriver.LOG(logMessage);
 
     while (true)
     {
-        if (button1pressed)
+        static unsigned long loop_timer = 0;
+        loop_timer = millis();
+
+        if (button1.pressed)
         {
-            displayDriver.LOG("Pressed!!");
-            button1pressed = false;
+            button1.pressed = false;
+            restDriver.updateBoxValue(BOX1, 1);
         }
-        delay(50);
+
+        if (restDriver.retrieveBoxValue(BOX1) == 1)
+        {
+            String logMessage = "Noticed that BOX1 has value 1, changing back to 0";
+            displayDriver.LOG(logMessage);
+            restDriver.updateBoxValue(BOX1, 0);
+        }
+
+        if (millis() - button1.timer > 5000)
+        {
+            button1.ready = true; 
+        }
+
+        while ((millis() - loop_timer) < 1000){}
     }
 }
 

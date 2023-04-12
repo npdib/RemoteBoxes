@@ -16,13 +16,22 @@ wifiDriver::wifiDriver(void)
 
 void wifiDriver::wifiConnect(void)
 {
-    if (WiFi.status() == 255)
+    if (WiFi.status() != WL_CONNECTED)
     {
-        WiFi.begin(mSSID.c_str(), mPwd.c_str());
+        if (WiFi.status() == 255)
+        {
+            Serial.print("Connecting...\n");
+            WiFi.begin(mSSID.c_str(), mPwd.c_str());
+        }
+        else
+        {
+            Serial.print("Reconnecting...\n");
+            WiFi.reconnect();
+        }
     }
     else
     {
-        WiFi.reconnect();
+        Serial.print("Still connected...\n");
     }
     
     while (WiFi.status() != WL_CONNECTED)
@@ -30,6 +39,4 @@ void wifiDriver::wifiConnect(void)
         Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
         delay(1000);
     }
-
-    Serial.print("Connected successfully\n");
 }
