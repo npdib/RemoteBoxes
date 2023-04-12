@@ -29,10 +29,6 @@ void wifiDriver::wifiConnect(void)
             WiFi.reconnect();
         }
     }
-    else
-    {
-        Serial.print("Still connected...\n");
-    }
     
     while (WiFi.status() != WL_CONNECTED)
     {

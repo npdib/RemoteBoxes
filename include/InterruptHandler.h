@@ -4,16 +4,17 @@
 #include <Arduino.h>
 
 #define BUTTON1_PIN GPIO_NUM_42
+#define READY_THRESHOLD 5000
 
-struct button
+typedef struct
 {
     bool pressed = false;
-    bool ready = false;
     unsigned long timer = 0;
-};
+} Button;
 
-extern button button1;
+extern Button buttons[5];
 
+void IRAM_ATTR Button1ISR(void);
 void setupButtonInterrupts(void);
 
 #endif

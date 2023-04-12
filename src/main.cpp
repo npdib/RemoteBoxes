@@ -22,49 +22,38 @@ void setup()
     restDriver restDriver(wifiDriver);
     setupButtonInterrupts();
 
-    // restDriver.updateBoxValue(BOX1, 0);
-    // restDriver.updateBoxValue(BOX2, 0);
+    // fetch time from internet
 
-    // int box1 = restDriver.retrieveBoxValue(BOX1);
-    // int box2 = restDriver.retrieveBoxValue(BOX2);
-    // char logMessage[64];
-    // snprintf(logMessage, 64, "Old value for Box 1 is %d", box1);
-    // displayDriver.LOG(logMessage);
-    // snprintf(logMessage, 64, "Old value for Box 2 is %d", box2);
-    // displayDriver.LOG(logMessage);
-
-    // restDriver.updateBoxValue(BOX1, 1);
-    // restDriver.updateBoxValue(BOX2, 1);
-
-    // box1 = restDriver.retrieveBoxValue(BOX1);
-    // box2 = restDriver.retrieveBoxValue(BOX2);
-    // snprintf(logMessage, 64, "New value for Box 1 is %d", box1);
-    // displayDriver.LOG(logMessage);
-    // snprintf(logMessage, 64, "New value for Box 2 is %d", box2);
-    // displayDriver.LOG(logMessage);
-
-    while (true)
+    while (true)  // main loop
     {
         static unsigned long loop_timer = 0;
         loop_timer = millis();
 
-        if (button1.pressed)
+        // POLL FOR BUTTON PRESSES
+
+        for (int i = 0; i < 5; i++)
         {
-            button1.pressed = false;
-            restDriver.updateBoxValue(BOX1, 1);
+            if (buttons[i].pressed)
+            {
+                buttons[i].pressed = false;
+                restDriver.updateBoxValue(BOX1, i+1);
+            }
         }
 
-        if (restDriver.retrieveBoxValue(BOX1) == 1)
+        // CHECK DATABASE VALUES (this will be for box 2)
+
+        static int box1 = 0;
+        box1 = restDriver.retrieveBoxValue(BOX1);
+
+        if (box1 != 0)
         {
-            String logMessage = "Noticed that BOX1 has value 1, changing back to 0";
-            displayDriver.LOG(logMessage);
+            char logMessage[64];
+            snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);
+            displayDriver.LOG(logMessage); // this will be changed to display a gif (displayDriver.showGIF(box1))
             restDriver.updateBoxValue(BOX1, 0);
         }
 
-        if (millis() - button1.timer > 5000)
-        {
-            button1.ready = true; 
-        }
+        // WAIT AT LEAST A SECOND
 
         while ((millis() - loop_timer) < 1000){}
     }

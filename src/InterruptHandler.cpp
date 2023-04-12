@@ -1,19 +1,21 @@
 #include "InterruptHandler.h"
 
-button button1;
+Button buttons[5];
 
 void IRAM_ATTR Button1ISR(void)
 {
-    if (button1.ready)
+    if ((millis() - buttons[3].timer) > READY_THRESHOLD)
     {
-        button1.pressed = true;
-        button1.ready = false;
-        button1.timer = millis();
+        buttons[3].pressed = true;
+        buttons[3].timer = millis();
     }
 }
 
 void setupButtonInterrupts(void)
 {
+    // setup button pins
     pinMode(BUTTON1_PIN, INPUT_PULLUP);
+
+    // attach button interrupts
     attachInterrupt(BUTTON1_PIN, Button1ISR, FALLING);
 }
