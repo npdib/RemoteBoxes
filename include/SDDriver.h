@@ -1,0 +1,20 @@
+#ifndef SDDRIVER
+#define SDDRIVER
+
+#include <SPI.h>
+#include <SD.h>
+
+
+typedef struct {
+    std::string SSID = "";
+    std::string Username = "";
+    std::string Password = "";
+} WiFiCredentials;
+
+static constexpr int SD_CS = 8;
+
+void initialiseSD(void);
+WiFiCredentials readWiFiData(void);
+
+
+#endif //  SDDRIVER

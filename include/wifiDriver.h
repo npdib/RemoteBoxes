@@ -2,14 +2,13 @@
 #define WIFIDRIVER
 
 #include <WiFi.h>
+#include "SDDriver.h"
 
 class wifiDriver
 {
     private:
-        std::string mCredentials = "";
-        std::string mSSID = "";
-        std::string mPwd = "";
-        std::string getSSIDfromFile(void);
+        WiFiCredentials mCredentials;
+        WiFiCredentials getSSIDfromFile(void);
 
     public:
         wifiDriver(void); // constructor

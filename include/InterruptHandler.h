@@ -4,6 +4,7 @@
 #include <Arduino.h>
 
 #define BUTTON1_PIN GPIO_NUM_42
+#define BUTTON2_PIN GPIO_NUM_12
 #define READY_THRESHOLD 5000
 
 typedef struct

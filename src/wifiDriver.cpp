@@ -1,17 +1,14 @@
 #include "wifiDriver.h"
 
-std::string wifiDriver::getSSIDfromFile(void)
+WiFiCredentials wifiDriver::getSSIDfromFile(void)
 {
-    return "NOWQYH9M;5sqspkg8qTEa";
+    return readWiFiData();
 }
 
 wifiDriver::wifiDriver(void)
 {
     mCredentials = getSSIDfromFile();
-    int semiColon = mCredentials.find(';');
-    mSSID = mCredentials.substr(0, semiColon);
-    mPwd = mCredentials.substr(semiColon+1); 
-    Serial.printf("SSID: %s\nPassword: %s\n", mSSID.c_str(), mPwd.c_str());
+    Serial.printf("SSID: %s\nPassword: %s\n", mCredentials.SSID.c_str(), mCredentials.Password.c_str());
 }
 
 void wifiDriver::wifiConnect(void)
@@ -21,7 +18,9 @@ void wifiDriver::wifiConnect(void)
         if (WiFi.status() == 255)
         {
             Serial.print("Connecting...\n");
-            WiFi.begin(mSSID.c_str(), mPwd.c_str());
+            WiFi.disconnect(true);
+            WiFi.mode(WIFI_STA);
+            WiFi.begin(mCredentials.SSID.c_str(), mCredentials.Password.c_str());
         }
         else
         {
