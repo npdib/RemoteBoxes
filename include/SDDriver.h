@@ -13,7 +13,7 @@ typedef struct {
 
 static constexpr int SD_CS = 8;
 
-void initialiseSD(void);
+void mountSD(void);
 WiFiCredentials readWiFiData(void);
 
 

@@ -17,7 +17,7 @@ void setup()
     }
     Serial.println("Starting...");
     
-    initialiseSD();
+    // mountSD();
     displayDriver displayDriver;
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
