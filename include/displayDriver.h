@@ -9,7 +9,7 @@ class displayDriver // class to hold the display driver
 {
     private:
         // PIN DEFINITIONS
-        static constexpr int TFT_CS = 37; // this is the MISO pin so will have to be changed
+        static constexpr int TFT_CS = 9; // this is the MISO pin so will have to be changed
         static constexpr int  TFT_RST = 1;
         static constexpr int TFT_DC = 34;
         static constexpr int TFT_MOSI  = MOSI;  // Data out
