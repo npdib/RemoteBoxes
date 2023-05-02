@@ -57,6 +57,16 @@ void setup()
         // WAIT AT LEAST A SECOND
 
         while ((millis() - loop_timer) < 1000){}
+
+        displayDriver.clearScreen();
+        if (WiFi.status() != WL_CONNECTED)
+        {
+            displayDriver.LOG("DISCONNECTED");
+        }
+        else
+        {
+            displayDriver.LOG("CONNECTED");
+        }
     }
 }
 
