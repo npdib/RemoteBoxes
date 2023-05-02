@@ -8,7 +8,7 @@ WiFiCredentials wifiDriver::getSSIDfromFile(void)
 wifiDriver::wifiDriver(void)
 {
     mCredentials = getSSIDfromFile();
-    Serial.printf("SSID: %s\nPassword: %s\n", mCredentials.SSID.c_str(), mCredentials.Password.c_str());
+    Serial.printf("SSID: %s\t%d\nPassword: %s\t%d\n", mCredentials.SSID.c_str(), mCredentials.SSID.length(), mCredentials.Password.c_str(), mCredentials.Password.length());
 }
 
 void wifiDriver::wifiConnect(void)
@@ -29,9 +29,32 @@ void wifiDriver::wifiConnect(void)
         }
     }
     
+    int connectionCounter = 0;
+
     while (WiFi.status() != WL_CONNECTED)
     {
-        Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
-        delay(1000);
+        if (connectionCounter != 40)
+        {
+            Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
+            delay(1000);
+            connectionCounter ++;
+        }
+        else
+        {
+            int seconds = 0;
+            int minutes = 0;
+            while (minutes < 15)
+            {
+                seconds++;
+                if (seconds == 60)
+                {
+                    seconds = 0;
+                    minutes++;
+                }
+                Serial.printf("Waiting before trying to reconnect: %d:%02d\n", minutes, seconds);
+                delay(1000);
+            }
+            connectionCounter = 0;
+        }        
     }
 }
