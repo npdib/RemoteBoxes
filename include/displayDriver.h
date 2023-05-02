@@ -23,7 +23,7 @@ class displayDriver // class to hold the display driver
 	public:		
 
 		displayDriver(void); // constructor
-		void clearScreen(void){tft.fillScreen(ST77XX_BLACK);} // clear screen function
+		void clearScreen(void){tft.setCursor(5, 5); tft.fillScreen(ST77XX_BLACK);} // clear screen function
         void LOG(char*);
         void LOG(String);
         void LOG(int);

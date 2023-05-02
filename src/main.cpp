@@ -58,13 +58,15 @@ void setup()
 
         while ((millis() - loop_timer) < 1000){}
 
-        displayDriver.clearScreen();
+        
         if (WiFi.status() != WL_CONNECTED)
         {
+            displayDriver.clearScreen();
             displayDriver.LOG("DISCONNECTED");
         }
         else
         {
+            displayDriver.clearScreen();
             displayDriver.LOG("CONNECTED");
         }
     }
