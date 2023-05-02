@@ -63,11 +63,13 @@ void setup()
         {
             displayDriver.clearScreen();
             displayDriver.LOG("DISCONNECTED");
+            Serial.println("DISCONNECTED");
         }
         else
         {
             displayDriver.clearScreen();
             displayDriver.LOG("CONNECTED");
+            Serial.println("CONNECTED");
         }
     }
 }
