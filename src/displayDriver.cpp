@@ -5,6 +5,7 @@
 void displayDriver::initialiseScreen(void)
 {
 	tft.init(170, 320); // Init ST7789 170x320
+	tft.setRotation(1);
 	clearScreen();
 }
 
@@ -23,6 +24,16 @@ displayDriver::displayDriver(void)
 	initialiseScreen();
 }
 
+void displayDriver::clearScreen(void)
+{
+	tft.fillScreen(ST77XX_BLACK);
+}
+
+void displayDriver::resetCursor(void)
+{
+	tft.setCursor(5, 5);
+}
+
 void displayDriver::LOG(char* text)
 {
 	tft.println(text);
@@ -36,6 +47,15 @@ void displayDriver::LOG(String text)
 void displayDriver::LOG(int text)
 {
 	tft.println(text);
+}
+
+void displayDriver::displayGIF(int gifNum)
+{
+    const char * prefix = "/gif/gif";
+    const char * suffix = ".gif";
+
+    char fileName[80];
+    snprintf(fileName, 80, "%s%d%s", prefix, gifNum, suffix);
 }
 
 // void testlines(uint16_t color)

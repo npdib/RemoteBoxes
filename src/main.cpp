@@ -19,6 +19,7 @@ void setup()
     
     // mountSD();
     displayDriver displayDriver;
+    displayDriver.displayGIF(2);
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
     setupButtonInterrupts();
