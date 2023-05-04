@@ -7,17 +7,19 @@
 #include "AnimatedGIF.h"
 #include <SPI.h>
 
+static constexpr int DISPLAY_HEIGHT = 170; 
+static constexpr int  DISPLAY_WIDTH = 320;
+
+static constexpr int TFT_CS = 9; // this is the MISO pin so will have to be changed
+static constexpr int  TFT_RST = 1;
+static constexpr int TFT_DC = 34;
+static constexpr int TFT_MOSI  = MOSI;  // Data out
+static constexpr int TFT_SCLK  = SCK;  // Clock out
+
 class displayDriver // class to hold the display driver
 {
     private:
         // PIN DEFINITIONS
-        static constexpr int TFT_CS = 9; // this is the MISO pin so will have to be changed
-        static constexpr int  TFT_RST = 1;
-        static constexpr int TFT_DC = 34;
-        static constexpr int TFT_MOSI  = MOSI;  // Data out
-        static constexpr int TFT_SCLK  = SCK;  // Clock out
-    
-		Adafruit_ST7789 tft = Adafruit_ST7789(TFT_CS, TFT_DC, TFT_MOSI, TFT_SCLK, TFT_RST);
 
 		void initialiseScreen(void);
         void initialiseLog(void);

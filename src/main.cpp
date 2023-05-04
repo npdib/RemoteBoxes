@@ -19,7 +19,6 @@ void setup()
     
     // mountSD();
     displayDriver displayDriver;
-    displayDriver.displayGIF(2);
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
     setupButtonInterrupts();
@@ -50,8 +49,9 @@ void setup()
         if (box1 != 0)
         {
             char logMessage[64];
-            snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);
-            displayDriver.LOG(logMessage); // this will be changed to display a gif (displayDriver.showGIF(box1))
+            displayDriver.displayGIF(box1);
+            // snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);
+            // displayDriver.LOG(logMessage); // this will be changed to display a gif (displayDriver.showGIF(box1))
             restDriver.updateBoxValue(BOX1, 0);
         }
 
