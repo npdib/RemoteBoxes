@@ -59,16 +59,17 @@ void setup()
 
         while ((millis() - loop_timer) < 1000){}
 
+        displayDriver.clearScreen();
+        displayDriver.resetCursor();
         
         if (WiFi.status() != WL_CONNECTED)
         {
-            displayDriver.clearScreen();
+
             displayDriver.LOG("DISCONNECTED");
             Serial.println("DISCONNECTED");
         }
         else
         {
-            displayDriver.clearScreen();
             displayDriver.LOG("CONNECTED");
             Serial.println("CONNECTED");
         }

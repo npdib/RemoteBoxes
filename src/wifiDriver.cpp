@@ -18,7 +18,7 @@ void wifiDriver::wifiConnect(void)
         if (WiFi.status() == 255)
         {
             Serial.print("Connecting...\n");
-            WiFi.disconnect(true);
+            // WiFi.disconnect(true);
             WiFi.mode(WIFI_STA);
             WiFi.begin(mCredentials.SSID.c_str(), mCredentials.Password.c_str());
         }
@@ -28,33 +28,11 @@ void wifiDriver::wifiConnect(void)
             WiFi.reconnect();
         }
     }
-    
-    int connectionCounter = 0;
 
-    while (WiFi.status() != WL_CONNECTED)
+    while (WiFi.waitForConnectResult() != WL_CONNECTED)
     {
-        if (connectionCounter != 40)
-        {
-            Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
-            delay(1000);
-            connectionCounter ++;
-        }
-        else
-        {
-            int seconds = 0;
-            int minutes = 0;
-            while (minutes < 15)
-            {
-                seconds++;
-                if (seconds == 60)
-                {
-                    seconds = 0;
-                    minutes++;
-                }
-                Serial.printf("Waiting before trying to reconnect: %d:%02d\n", minutes, seconds);
-                delay(1000);
-            }
-            connectionCounter = 0;
-        }        
+        Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
+        delay(1000);    
     }
+    Serial.println("Connected");
 }
