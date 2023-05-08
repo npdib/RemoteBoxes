@@ -2,10 +2,13 @@
 #include "displayDriver.h"
 #include "wifiDriver.h"
 #include "restDriver.h"
-#include "InterruptHandler.h"
+#include "InterruptHandler.h" // test commit and push
 
 constexpr int BOX1 = 1;
 constexpr int BOX2 = 2;
+
+bool UnseenGIF = false;
+int LastGIF = 0;
 
 void setup()
 {
@@ -32,7 +35,7 @@ void setup()
 
         // POLL FOR BUTTON PRESSES
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 3; i++)
         {
             if (buttons[i].pressed)
             {
@@ -41,18 +44,39 @@ void setup()
             }
         }
 
+        if (buttons[3].pressed) // dismiss unseen gif
+        {
+            UnseenGIF = false;
+        }
+
+        if (buttons[4].pressed) // replay last gif
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                displayDriver.displayGIF(LastGIF);
+                i ++;
+            }
+        }
+
         // CHECK DATABASE VALUES (this will be for box 2)
 
-        static int box1 = 0;
-        box1 = restDriver.retrieveBoxValue(BOX1);
+        static int boxValue = 0;
+        boxValue = restDriver.retrieveBoxValue(BOX1);
 
-        if (box1 != 0)
+        if (boxValue != 0)
         {
-            char logMessage[64];
-            displayDriver.displayGIF(box1);
+            // char logMessage[64];
+            for (int i = 0; i < 5; i++)
+            {
+                displayDriver.displayGIF(boxValue);
+                i ++;
+            }
+            
             // snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);
             // displayDriver.LOG(logMessage); // this will be changed to display a gif (displayDriver.showGIF(box1))
             restDriver.updateBoxValue(BOX1, 0);
+            UnseenGIF = true;
+            LastGIF = boxValue;
         }
 
         // WAIT AT LEAST A SECOND
