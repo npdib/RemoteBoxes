@@ -29,3 +29,8 @@ void reFetchTime(void)
         setTime();
     }
 }
+
+std::string getTime(void)
+{
+    return rtc.getTime().c_str();
+}

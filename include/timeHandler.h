@@ -8,5 +8,6 @@
 void configureRTC(void);
 void setTime(void);
 void reFetchTime(void);
+std::string getTime(void);
 
 #endif

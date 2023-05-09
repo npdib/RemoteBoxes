@@ -102,10 +102,12 @@ void setup()
         if (WiFi.status() != WL_CONNECTED)
         {
             Serial.println("DISCONNECTED");
+            Serial.println(getTime().c_str());
         }
         else
         {
             Serial.println("CONNECTED");
+            Serial.println(getTime().c_str());
         }
         /*************************************************/
     }
