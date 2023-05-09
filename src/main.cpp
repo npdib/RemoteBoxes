@@ -22,6 +22,7 @@ void setup()
     
     // mountSD();
     displayDriver displayDriver;
+    displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0);
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
     setupButtonInterrupts();

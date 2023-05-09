@@ -3,6 +3,7 @@
 
 #include <Adafruit_GFX.h>    // Core graphics library
 #include <Adafruit_ST7789.h> // Hardware-specific library for ST7789
+#include "Adafruit_ImageReader.h"
 #include "SDDriver.h"
 #include "AnimatedGIF.h"
 #include <SPI.h>
@@ -33,6 +34,7 @@ class displayDriver // class to hold the display driver
         void LOG(String);
         void LOG(int);
         void displayGIF(int);
+        void displayBMP(char *, int, int);
 };
 
 #endif //DISPLAYDRIVER
