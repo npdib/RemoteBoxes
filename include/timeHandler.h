@@ -9,5 +9,6 @@ void configureRTC(void);
 void setTime(void);
 void reFetchTime(void);
 std::string getTime(void);
+std::string getDate(void);
 
 #endif

@@ -13,6 +13,7 @@ int boxValue = 0;
 unsigned long loop_timer = 0;
 
 // UI Variables
+bool redrawScreen = true;
 bool UnseenGIF = false;
 int LastGIF = 0;
 
@@ -30,7 +31,14 @@ void setup()
     /******************************************/
     
     displayDriver displayDriver;
-    // displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
+    displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
+    delay(500);
+    displayDriver.displayBMP("/images/red.bmp", 0, 0); // connecting to wifi screen
+    delay(500);
+    displayDriver.displayBMP("/images/green.bmp", 0, 0); // connecting to wifi screen
+    delay(500);
+    displayDriver.displayBMP("/images/blue.bmp", 0, 0); // connecting to wifi screen
+    delay(500);
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
 
@@ -39,6 +47,11 @@ void setup()
 
     // fetch time from internet
     setTime();
+
+    std::string loopTime = getTime();
+    std::string loopDate = getDate();
+    std::string oldLoopDate= "00:00";
+    std::string oldLoopTime = "00:00";
 
     while (true)  // main loop
     {
@@ -59,6 +72,7 @@ void setup()
         {
             buttons[3].pressed = false;
             UnseenGIF = false;
+            redrawScreen = true;
         }
 
         if (buttons[4].pressed) // replay last gif
@@ -68,6 +82,7 @@ void setup()
             {
                 displayDriver.displayGIF(LastGIF);
             }
+            redrawScreen = true;
         }
 
         // CHECK DATABASE VALUES
@@ -83,34 +98,52 @@ void setup()
 
             restDriver.updateBoxValue(BOX1, 0);
 
+            redrawScreen = true;
             UnseenGIF = true;
             LastGIF = boxValue;
         }
 
         reFetchTime(); // refetch the current time from the internet every hour
 
+        loopTime = getTime();
+        loopDate = getDate();
+        if ((loopTime != oldLoopTime) or (loopDate != oldLoopDate)) // only update the on screen time if necessary
+        {
+            redrawScreen = true;
+        }
+        oldLoopTime = loopTime;
+        oldLoopDate = loopDate;
 
         // HANDLE THE SCREEN DISPLAY
-        //      this includes background, clock and notification
+        //      this includes background, clock and notification      
 
+        if (redrawScreen)
+        {
+            displayDriver.clearScreen();
+            displayDriver.displayBMP("/images/background.bmp", 0, 0); // background
+            if (UnseenGIF) // notification
+            {
+
+            }
+            displayDriver.displayTime(loopTime.c_str()); // clock
+            displayDriver.displayDate(loopDate.c_str());
+            redrawScreen = false;
+        }
 
         // WAIT AT LEAST A HALF A SECOND EACH LOOP
-        while ((millis() - loop_timer) < 500){}
+        Serial.println(millis() - loop_timer);
+        while ((millis() - loop_timer) < 1000){}
 
         
         /*************************************************/
-        displayDriver.clearScreen();
-        displayDriver.resetCursor();
         
         if (WiFi.status() != WL_CONNECTED)
         {
             Serial.println("DISCONNECTED");
-            Serial.println(getTime().c_str());
         }
         else
         {
             Serial.println("CONNECTED");
-            Serial.println(getTime().c_str());
         }
         /*************************************************/
     }

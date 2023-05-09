@@ -16,8 +16,6 @@ static constexpr int  DISPLAY_WIDTH = 320;
 static constexpr int TFT_CS = 9; // this is the MISO pin so will have to be changed
 static constexpr int  TFT_RST = 1;
 static constexpr int TFT_DC = 34;
-static constexpr int TFT_MOSI  = MOSI;  // Data out
-static constexpr int TFT_SCLK  = SCK;  // Clock out
 
 class displayDriver // class to hold the display driver
 {
@@ -35,6 +33,8 @@ class displayDriver // class to hold the display driver
         void LOG(char*);
         void LOG(String);
         void LOG(int);
+        void displayTime(std::string);
+        void displayDate(std::string);
         void displayGIF(int);
         void displayBMP(char *, int, int);
 };

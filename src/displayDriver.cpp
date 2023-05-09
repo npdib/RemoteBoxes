@@ -18,7 +18,7 @@ void displayDriver::initialiseLog(void)
 {
 	tft.setTextWrap(true);
 	tft.setCursor(5, 5);
-	tft.setTextColor(ST77XX_WHITE);
+	tft.setTextColor(ST77XX_WHITE, ST77XX_BLUE);
 	tft.setTextSize(3);
 }
 
@@ -194,6 +194,20 @@ void displayDriver::LOG(int text)
 	tft.println(text);
 }
 
+void displayDriver::displayTime(std::string time)
+{
+  tft.setCursor(50, 50);
+  tft.setTextSize(4);
+  tft.print(time.c_str());
+}
+
+void displayDriver::displayDate(std::string date)
+{
+  tft.setCursor(80, 50);
+  tft.setTextSize(3);
+  tft.print(date.c_str());
+}
+
 void displayDriver::displayGIF(int gifNum)
 {
 
@@ -229,6 +243,7 @@ void displayDriver::displayGIF(int gifNum)
 void displayDriver::displayBMP(char * bmp, int x, int y)
 {
   mountSD();
-  reader.drawBMP(bmp, tft, x, y);
+  ImageReturnCode code = reader.drawBMP(bmp, tft, x, y);
+  reader.printStatus(code);
   unmountSD();
 }

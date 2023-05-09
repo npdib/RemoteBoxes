@@ -454,9 +454,9 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
               if (depth < 16) {
                 // Load and quantize color table
                 for (uint16_t c = 0; c < colors; c++) {
+                  r = file.read();
                   b = file.read();
                   g = file.read();
-                  r = file.read();
                   (void)file.read(); // Ignore 4th byte
                   quantized[c] =
                       ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
@@ -534,9 +534,9 @@ ImageReturnCode Adafruit_ImageReader::coreBMP(
                   }
                   if (depth == 24) {
                     // Convert each pixel from BMP to 565 format, save in dest
+                    r = sdbuf[srcidx++];
                     b = sdbuf[srcidx++];
                     g = sdbuf[srcidx++];
-                    r = sdbuf[srcidx++];
                     dest[destidx++] =
                         ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
                   } else {

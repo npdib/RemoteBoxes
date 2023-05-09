@@ -5,7 +5,7 @@ unsigned long fetch_time_timer = 0;
 
 const char* ntpServer1 = "pool.ntp.org";
 const char* ntpServer2 = "time.nist.gov";
-const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
+const char* time_zone = "GMT+0BST-1,M3.5.0/01:00:00,M10.5.0/02:00:00";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
 
 void configureRTC(void)
 {
@@ -32,5 +32,13 @@ void reFetchTime(void)
 
 std::string getTime(void)
 {
-    return rtc.getTime().c_str();
+    struct tm timeinfo = rtc.getTimeStruct();
+	char s[51];
+	strftime(s, 50, "%H:%M", &timeinfo);
+    return (std::string) s;
+}
+
+std::string getDate(void)
+{
+    return rtc.getDate().c_str();
 }
