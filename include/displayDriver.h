@@ -8,6 +8,8 @@
 #include "AnimatedGIF.h"
 #include <SPI.h>
 
+#define GIF_LOOP_COUNT 5
+
 static constexpr int DISPLAY_HEIGHT = 170; 
 static constexpr int  DISPLAY_WIDTH = 320;
 

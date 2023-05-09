@@ -34,5 +34,4 @@ void wifiDriver::wifiConnect(void)
         Serial.printf("Connecting to WiFi, please wait... Current status %d\n", WiFi.status());
         delay(1000);    
     }
-    Serial.println("Connected");
 }

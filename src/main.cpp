@@ -5,14 +5,21 @@
 #include "InterruptHandler.h" // test commit and push
 #include "timeHandler.h"
 
+// Box variables
 constexpr int BOX1 = 1;
 constexpr int BOX2 = 2;
+int boxValue = 0;
 
+unsigned long loop_timer = 0;
+
+// UI Variables
 bool UnseenGIF = false;
 int LastGIF = 0;
 
 void setup()
 {
+    // this will be unnecessary
+    /*****************************************/
     Serial.begin(115200);
     for (size_t i = 5; i > 0; i--)
     {
@@ -20,18 +27,18 @@ void setup()
         delay(1000);
     }
     Serial.println("Starting...");
+    /******************************************/
     
-    // mountSD();
     displayDriver displayDriver;
-    displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0);
+    displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
+
+    configureRTC();
     setupButtonInterrupts();
 
     // fetch time from internet
     setTime();
-    unsigned long fetch_time_timer = millis();
-    unsigned long loop_timer = 0;
 
     while (true)  // main loop
     {
@@ -48,7 +55,7 @@ void setup()
             }
         }
 
-        if (buttons[3].pressed) // dismiss unseen gif
+        if (buttons[3].pressed) // dismiss unseen gif notification
         {
             UnseenGIF = false;
         }
@@ -58,55 +65,49 @@ void setup()
             for (int i = 0; i < 5; i++)
             {
                 displayDriver.displayGIF(LastGIF);
-                i ++;
             }
         }
 
-        // CHECK DATABASE VALUES (this will be for box 2)
+        // CHECK DATABASE VALUES
 
-        static int boxValue = 0;
         boxValue = restDriver.retrieveBoxValue(BOX1);
 
         if (boxValue != 0)
         {
-            // char logMessage[64];
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < GIF_LOOP_COUNT; i++) // loop gif 5 times
             {
-                displayDriver.displayGIF(boxValue);
-                i ++;
+                displayDriver.displayGIF(boxValue); // play appropriate gif
             }
-            
-            // snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);
-            // displayDriver.LOG(logMessage); // this will be changed to display a gif (displayDriver.showGIF(box1))
+
             restDriver.updateBoxValue(BOX1, 0);
+
             UnseenGIF = true;
             LastGIF = boxValue;
         }
 
-        if (millis() - fetch_time_timer > ONE_HOUR)
-        {
-            setTime();
-            fetch_time_timer = millis();
-        }
+        reFetchTime();
 
-        // WAIT AT LEAST A HALF A SECOND
+        // WAIT AT LEAST A HALF A SECOND EACH LOOP
 
         while ((millis() - loop_timer) < 500){}
 
+        // HANDLE THE SCREEN DISPLAY
+        //      this includes background, clock and notification
+
+
+        /*************************************************/
         displayDriver.clearScreen();
         displayDriver.resetCursor();
         
         if (WiFi.status() != WL_CONNECTED)
         {
-
-            displayDriver.LOG("DISCONNECTED");
             Serial.println("DISCONNECTED");
         }
         else
         {
-            displayDriver.LOG("CONNECTED");
             Serial.println("CONNECTED");
         }
+        /*************************************************/
     }
 }
 
