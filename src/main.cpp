@@ -37,7 +37,7 @@ void setup()
 
         for (int i = 0; i < 3; i++)
         {
-            if (buttons[i].pressed)
+            if (buttons[i].pressed) // gif buttons
             {
                 buttons[i].pressed = false;
                 restDriver.updateBoxValue(BOX1, i+1);
@@ -46,15 +46,16 @@ void setup()
 
         if (buttons[3].pressed) // dismiss unseen gif
         {
+            buttons[3].pressed = false;
             UnseenGIF = false;
         }
 
         if (buttons[4].pressed) // replay last gif
         {
+            buttons[4].pressed = false;
             for (int i = 0; i < 5; i++)
             {
                 displayDriver.displayGIF(LastGIF);
-                i ++;
             }
         }
 
@@ -69,7 +70,6 @@ void setup()
             for (int i = 0; i < 5; i++)
             {
                 displayDriver.displayGIF(boxValue);
-                i ++;
             }
             
             // snprintf(logMessage, 64, "Noticed that BOX1 has value %d, changing back to 0", box1);

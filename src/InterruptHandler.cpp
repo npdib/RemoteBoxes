@@ -59,4 +59,7 @@ void setupButtonInterrupts(void)
     // attach button interrupts
     attachInterrupt(BUTTON1_PIN, Button1ISR, FALLING);
     attachInterrupt(BUTTON2_PIN, Button2ISR, FALLING);
+    attachInterrupt(BUTTON3_PIN, Button3ISR, FALLING);
+    attachInterrupt(BUTTON4_PIN, Button4ISR, FALLING);
+    attachInterrupt(BUTTON5_PIN, Button5ISR, FALLING);
 }
