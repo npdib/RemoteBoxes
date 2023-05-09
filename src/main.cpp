@@ -3,6 +3,7 @@
 #include "wifiDriver.h"
 #include "restDriver.h"
 #include "InterruptHandler.h" // test commit and push
+#include "timeHandler.h"
 
 constexpr int BOX1 = 1;
 constexpr int BOX2 = 2;
@@ -28,10 +29,12 @@ void setup()
     setupButtonInterrupts();
 
     // fetch time from internet
+    setTime();
+    unsigned long fetch_time_timer = millis();
+    unsigned long loop_timer = 0;
 
     while (true)  // main loop
     {
-        static unsigned long loop_timer = 0;
         loop_timer = millis();
 
         // POLL FOR BUTTON PRESSES
@@ -80,9 +83,15 @@ void setup()
             LastGIF = boxValue;
         }
 
-        // WAIT AT LEAST A SECOND
+        if (millis() - fetch_time_timer > ONE_HOUR)
+        {
+            setTime();
+            fetch_time_timer = millis();
+        }
 
-        while ((millis() - loop_timer) < 1000){}
+        // WAIT AT LEAST A HALF A SECOND
+
+        while ((millis() - loop_timer) < 500){}
 
         displayDriver.clearScreen();
         displayDriver.resetCursor();
