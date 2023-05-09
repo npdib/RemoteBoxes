@@ -36,6 +36,7 @@ class displayDriver // class to hold the display driver
         void displayTime(std::string);
         void displayDate(std::string);
         void displayGIF(int);
+        void displayStillGIF(char *);
         void displayBMP(char *, int, int);
 };
 

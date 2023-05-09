@@ -196,15 +196,15 @@ void displayDriver::LOG(int text)
 
 void displayDriver::displayTime(std::string time)
 {
-  tft.setCursor(50, 50);
+  tft.setCursor(110, 65);
   tft.setTextSize(4);
   tft.print(time.c_str());
 }
 
 void displayDriver::displayDate(std::string date)
 {
-  tft.setCursor(80, 50);
-  tft.setTextSize(3);
+  tft.setCursor(138, 102);
+  tft.setTextSize(2);
   tft.print(date.c_str());
 }
 
@@ -237,6 +237,29 @@ void displayDriver::displayGIF(int gifNum)
 	else 
 	{
 		Serial.printf("Error opening file %s = %d\n", fileName, gif.getLastError());
+	}
+}
+
+void displayDriver::displayStillGIF(char * img)
+{
+	if (gif.open(img, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw)) 
+	{
+		GIFINFO gi;
+		Serial.printf("Successfully opened GIF %s; Canvas size = %d x %d\n",  img, gif.getCanvasWidth(), gif.getCanvasHeight());
+		if (gif.getInfo(&gi)) {
+		  Serial.printf("frame count: %d\n", gi.iFrameCount);
+		  Serial.printf("duration: %d ms\n", gi.iDuration);
+		  Serial.printf("max delay: %d ms\n", gi.iMaxDelay);
+		  Serial.printf("min delay: %d ms\n", gi.iMinDelay);
+		}
+
+		while (gif.playFrame(true, NULL));
+		gif.reset();		
+		gif.close();
+	} 
+	else 
+	{
+		Serial.printf("Error opening file %s = %d\n", img, gif.getLastError());
 	}
 }
 

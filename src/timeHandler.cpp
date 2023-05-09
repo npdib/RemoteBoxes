@@ -40,5 +40,8 @@ std::string getTime(void)
 
 std::string getDate(void)
 {
-    return rtc.getDate().c_str();
+    struct tm timeinfo = rtc.getTimeStruct();
+	char s[51];
+	strftime(s, 50, "%a, %b %d", &timeinfo);
+    return (std::string) s;
 }

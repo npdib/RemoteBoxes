@@ -32,13 +32,6 @@ void setup()
     
     displayDriver displayDriver;
     displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
-    delay(500);
-    displayDriver.displayBMP("/images/red.bmp", 0, 0); // connecting to wifi screen
-    delay(500);
-    displayDriver.displayBMP("/images/green.bmp", 0, 0); // connecting to wifi screen
-    delay(500);
-    displayDriver.displayBMP("/images/blue.bmp", 0, 0); // connecting to wifi screen
-    delay(500);
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
 
@@ -120,7 +113,7 @@ void setup()
         if (redrawScreen)
         {
             displayDriver.clearScreen();
-            displayDriver.displayBMP("/images/background.bmp", 0, 0); // background
+            displayDriver.displayStillGIF("/images/background.gif");
             if (UnseenGIF) // notification
             {
 
