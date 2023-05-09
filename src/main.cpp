@@ -30,7 +30,7 @@ void setup()
     /******************************************/
     
     displayDriver displayDriver;
-    displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
+    // displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
     wifiDriver wifiDriver;
     restDriver restDriver(wifiDriver);
 
@@ -85,16 +85,17 @@ void setup()
             LastGIF = boxValue;
         }
 
-        reFetchTime();
+        reFetchTime(); // refetch the current time from the internet every hour
 
-        // WAIT AT LEAST A HALF A SECOND EACH LOOP
-
-        while ((millis() - loop_timer) < 500){}
 
         // HANDLE THE SCREEN DISPLAY
         //      this includes background, clock and notification
 
 
+        // WAIT AT LEAST A HALF A SECOND EACH LOOP
+        while ((millis() - loop_timer) < 500){}
+
+        
         /*************************************************/
         displayDriver.clearScreen();
         displayDriver.resetCursor();
