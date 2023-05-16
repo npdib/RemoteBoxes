@@ -64,6 +64,7 @@ void setup()
 
         if (buttons[3].pressed) // dismiss unseen gif notification
         {
+            Serial.println("Dismiss");
             buttons[3].pressed = false;
             UnseenGIF = false;
             redrawScreen = true;
@@ -71,6 +72,7 @@ void setup()
 
         if (buttons[4].pressed) // replay last gif
         {
+            Serial.println("Replay");
             buttons[4].pressed = false;
             for (int i = 0; i < 5; i++)
             {
