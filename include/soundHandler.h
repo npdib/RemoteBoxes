@@ -33,7 +33,11 @@ typedef enum duration_t {
 } Duration;
 
 // octave 0 is the octave from A4 to Ab5
-void playPitch(Pitch, int, unsigned long, bool);
+void playPitch(Pitch, int, Duration, bool);
 void playFanfare(void);
+void happyBirthday(void);
+void messageReceived(void);
+void dismissSound(void);
+void replaySound(void);
 
 #endif // SOUNDHANDLER

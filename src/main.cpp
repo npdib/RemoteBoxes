@@ -30,8 +30,9 @@ void setup()
     }
     Serial.println("Starting...");
     /******************************************/
-
     playFanfare();
+    // delay(2000);
+    // happyBirthday();
     
     displayDriver displayDriver;
     displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
@@ -67,6 +68,7 @@ void setup()
         if (buttons[3].pressed) // dismiss unseen gif notification
         {
             Serial.println("Dismiss");
+            dismissSound();
             buttons[3].pressed = false;
             UnseenGIF = false;
             redrawScreen = true;
@@ -75,6 +77,7 @@ void setup()
         if (buttons[4].pressed) // replay last gif
         {
             Serial.println("Replay");
+            replaySound();
             buttons[4].pressed = false;
             for (int i = 0; i < 5; i++)
             {
@@ -89,8 +92,13 @@ void setup()
 
         if (boxValue != 0)
         {
+            if (boxValue == 10)
+            {
+                happyBirthday();
+            }
             for (int i = 0; i < GIF_LOOP_COUNT; i++) // loop gif 5 times
             {
+                messageReceived();
                 displayDriver.displayGIF(boxValue); // play appropriate gif
             }
 
