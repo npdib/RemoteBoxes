@@ -20,7 +20,20 @@ typedef enum pitch_t{
     Ab = 831
 } Pitch;
 
+typedef enum duration_t {
+    SemiQuaver = 150,
+    Quaver = 300,
+    TripletQuaver = 200,
+    Crotchet = 600, 
+    Minum = 1200,
+    SemiBreve = 2400,
+    DottedCrotchet = 900,
+    DottedQuaver = 450,
+    TripletCrotchet = 400
+} Duration;
+
 // octave 0 is the octave from A4 to Ab5
-void playPitch(Pitch, int, unsigned long);
+void playPitch(Pitch, int, unsigned long, bool);
+void playFanfare(void);
 
 #endif // SOUNDHANDLER

@@ -30,6 +30,8 @@ void setup()
     }
     Serial.println("Starting...");
     /******************************************/
+
+    playFanfare();
     
     displayDriver displayDriver;
     displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
