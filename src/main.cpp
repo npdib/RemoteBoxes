@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "soundHandler.h"
 #include "displayDriver.h"
 #include "wifiDriver.h"
 #include "restDriver.h"
