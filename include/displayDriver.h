@@ -14,7 +14,7 @@ static constexpr int DISPLAY_HEIGHT = 170;
 static constexpr int  DISPLAY_WIDTH = 320;
 
 static constexpr int TFT_CS = 9; // this is the MISO pin so will have to be changed
-static constexpr int  TFT_RST = 1;
+static constexpr int  TFT_RST = 8;
 static constexpr int TFT_DC = 34;
 
 class displayDriver // class to hold the display driver

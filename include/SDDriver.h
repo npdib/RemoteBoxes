@@ -11,7 +11,7 @@ typedef struct {
     std::string Password = "";
 } WiFiCredentials;
 
-static constexpr int SD_CS = 8;
+static constexpr int SD_CS = 7;
 
 void mountSD(void);
 void unmountSD(void);
