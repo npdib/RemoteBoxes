@@ -140,7 +140,7 @@ void setup()
             displayDriver.displayStillGIF("/images/background.gif");
             if (UnseenGIF) // notification
             {
-
+                displayDriver.displayBMP("/images/notification.bmp", 255, 5);
             }
             displayDriver.displayTime(loopTime.c_str()); // clock
             displayDriver.displayDate(loopDate.c_str());
