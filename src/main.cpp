@@ -6,9 +6,21 @@
 #include "InterruptHandler.h" // test commit and push
 #include "timeHandler.h"
 
+#define BOX_ONE
+
 // Box variables
 constexpr int BOX1 = 1;
 constexpr int BOX2 = 2;
+
+#ifdef BOX_ONE
+constexpr int RECEIVEBOX = BOX1;
+constexpr int SENDBOX = BOX2;
+#else
+constexpr int RECEIVEBOX = BOX2;
+constexpr int SENDBOX = BOX1;
+#endif
+
+
 int boxValue = 0;
 
 unsigned long loop_timer = 0;
@@ -60,7 +72,7 @@ void setup()
             if (buttons[i].pressed) // gif buttons
             {
                 buttons[i].pressed = false;
-                restDriver.updateBoxValue(BOX2, i+1);
+                restDriver.updateBoxValue(SENDBOX, i+1);
             }
         }
 
@@ -87,7 +99,7 @@ void setup()
 
         // CHECK DATABASE VALUES
 
-        boxValue = restDriver.retrieveBoxValue(BOX1);
+        boxValue = restDriver.retrieveBoxValue(RECEIVEBOX);
 
         if (boxValue != 0)
         {
@@ -101,7 +113,7 @@ void setup()
                 displayDriver.displayGIF(boxValue); // play appropriate gif
             }
 
-            restDriver.updateBoxValue(BOX1, 0);
+            restDriver.updateBoxValue(RECEIVEBOX, 0);
 
             redrawScreen = true;
             UnseenGIF = true;
