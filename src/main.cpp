@@ -60,7 +60,7 @@ void setup()
             if (buttons[i].pressed) // gif buttons
             {
                 buttons[i].pressed = false;
-                restDriver.updateBoxValue(BOX1, i+1);
+                restDriver.updateBoxValue(BOX2, i+1);
             }
         }
 
