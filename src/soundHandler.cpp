@@ -1,6 +1,6 @@
 #include "soundHandler.h"
 
-void playPitch(Pitch pitch, int octave, Duration duration, bool turnOff = false)
+void playPitch(Pitch pitch, int octave, Duration duration)
 {
     unsigned int freq = (octave >=0 ) ? (pitch << (octave)) : (pitch >> (octave * -1));
     tone(buzzerPin, (unsigned int) (octave >= 0) ? (pitch << octave) : (pitch >> (octave * -1)));

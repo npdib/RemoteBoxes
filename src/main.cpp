@@ -30,9 +30,8 @@ void setup()
     }
     Serial.println("Starting...");
     /******************************************/
+    
     playFanfare();
-    // delay(2000);
-    // happyBirthday();
     
     displayDriver displayDriver;
     displayDriver.displayBMP("/images/wifi_connecting.bmp", 0, 0); // connecting to wifi screen
@@ -92,7 +91,7 @@ void setup()
 
         if (boxValue != 0)
         {
-            if (boxValue == 10)
+            if (boxValue == 9)
             {
                 happyBirthday();
             }
