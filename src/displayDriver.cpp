@@ -5,6 +5,8 @@ Adafruit_ImageReader reader(SD);
 File f;
 AnimatedGIF gif;
 
+static int xOffset = 0;
+
 // PROTECTED
 
 void displayDriver::initialiseScreen(void)
@@ -124,7 +126,7 @@ void GIFDraw(GIFDRAW *pDraw)
         if (iCount) // any opaque pixels?
         {
 			tft.startWrite();
-			tft.setAddrWindow(pDraw->iX+x, y, iCount, 1);
+			tft.setAddrWindow(pDraw->iX+x + xOffset, y, iCount, 1);
 			tft.writePixels(usTemp, iCount, false, false);
 			tft.endWrite();
 			x += iCount;
@@ -154,7 +156,7 @@ void GIFDraw(GIFDRAW *pDraw)
 		for (x=0; x<iWidth; x++)
 			usTemp[x] = usPalette[*s++];
 		tft.startWrite();
-		tft.setAddrWindow(pDraw->iX, y, iWidth, 1);
+		tft.setAddrWindow(pDraw->iX + xOffset, y, iWidth, 1);
 		tft.writePixels(usTemp, iWidth, false, false);
 		tft.endWrite();
     }
@@ -210,7 +212,6 @@ void displayDriver::displayDate(std::string date)
 
 void displayDriver::displayGIF(int gifNum)
 {
-
 	// tft.println("TESTING");
     const char * prefix = "/gif/gif";
     const char * suffix = ".gif";
@@ -221,6 +222,7 @@ void displayDriver::displayGIF(int gifNum)
 	if (gif.open(fileName, GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw)) 
 	{
 		GIFINFO gi;
+    xOffset = (DISPLAY_WIDTH - gif.getCanvasWidth()) / 2;
 		Serial.printf("Successfully opened GIF %s; Canvas size = %d x %d\n",  fileName, gif.getCanvasWidth(), gif.getCanvasHeight());
 		if (gif.getInfo(&gi)) {
 		  Serial.printf("frame count: %d\n", gi.iFrameCount);
@@ -238,6 +240,7 @@ void displayDriver::displayGIF(int gifNum)
 	{
 		Serial.printf("Error opening file %s = %d\n", fileName, gif.getLastError());
 	}
+  xOffset = 0;
 }
 
 void displayDriver::displayStillGIF(char * img)

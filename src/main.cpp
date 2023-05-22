@@ -90,6 +90,7 @@ void setup()
             Serial.println("Replay");
             replaySound();
             buttons[4].pressed = false;
+            displayDriver.clearScreen();
             for (int i = 0; i < 5; i++)
             {
                 displayDriver.displayGIF(LastGIF);
@@ -107,6 +108,7 @@ void setup()
             {
                 happyBirthday();
             }
+            displayDriver.clearScreen();
             for (int i = 0; i < GIF_LOOP_COUNT; i++) // loop gif 5 times
             {
                 messageReceived();
