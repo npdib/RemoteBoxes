@@ -32,16 +32,16 @@ int LastGIF = 0;
 
 void setup()
 {
-    // this will be unnecessary
-    /*****************************************/
-    Serial.begin(115200);
-    for (size_t i = 5; i > 0; i--)
-    {
-        Serial.printf("Starting in %d\n", i);
-        delay(1000);
-    }
-    Serial.println("Starting...");
-    /******************************************/
+    // // this will be unnecessary
+    // /*****************************************/
+    // Serial.begin(115200);
+    // for (size_t i = 5; i > 0; i--)
+    // {
+    //     Serial.printf("Starting in %d\n", i);
+    //     delay(1000);
+    // }
+    // Serial.println("Starting...");
+    // /******************************************/
     
     playFanfare();
     
@@ -78,23 +78,26 @@ void setup()
 
         if (buttons[3].pressed) // dismiss unseen gif notification
         {
-            Serial.println("Dismiss");
-            dismissSound();
+            if (UnseenGIF)
+            {
+                Serial.println("Dismiss");
+                dismissSound();
+                UnseenGIF = false;
+                redrawScreen = true;
+            }
             buttons[3].pressed = false;
-            UnseenGIF = false;
-            redrawScreen = true;
         }
 
         if (buttons[4].pressed) // replay last gif
         {
             Serial.println("Replay");
             replaySound();
-            buttons[4].pressed = false;
             displayDriver.clearScreen();
             for (int i = 0; i < 5; i++)
             {
                 displayDriver.displayGIF(LastGIF);
             }
+            buttons[4].pressed = false;
             redrawScreen = true;
         }
 
@@ -154,17 +157,17 @@ void setup()
         while ((millis() - loop_timer) < 1000){}
 
         
-        /*************************************************/
+        // /*************************************************/
         
-        if (WiFi.status() != WL_CONNECTED)
-        {
-            Serial.println("DISCONNECTED");
-        }
-        else
-        {
-            Serial.println("CONNECTED");
-        }
-        /*************************************************/
+        // if (WiFi.status() != WL_CONNECTED)
+        // {
+        //     Serial.println("DISCONNECTED");
+        // }
+        // else
+        // {
+        //     Serial.println("CONNECTED");
+        // }
+        // /*************************************************/
     }
 }
 
